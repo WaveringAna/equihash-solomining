@@ -1,19 +1,19 @@
 {
-    "coin":"zcash_testnet.json",
+    "coin": "zcash_testnet.json",
 
     "address": "tmTrPDwPTJweuwPR7Hgt6u1dN7Vq4tZyuxm",
 
     "ports": {
         "3032": {
-	         "tls":false
-	}
+            "tls": false
+        }
     },
 
     "tlsOptions": {
         "enabled": false,
-        "serverKey":"~/certs/server-privatekey.pem",
-        "serverCert":"~/certs/server-cert.pem",
-        "ca":"~/certs/server-csr.pem"
+        "serverKey": "~/certs/server-privatekey.pem",
+        "serverCert": "~/certs/server-cert.pem",
+        "ca": "~/certs/server-csr.pem"
     },
 
     "blockRefreshInterval": 100,
@@ -29,22 +29,25 @@
         "purgeInterval": 300
     },
 
-    "daemons": [
-      {
+    "daemons": [{
         "host": "127.0.0.1",
         "port": 18333,
         "user": "rpcuser",
         "password": "rpcpassword"
-      }
-    ],
+    }],
 
     "website": {
-      "enabled": true,
-      "host": "0.0.0.0",
-      "port": "8080",
-      "redis" : {
-        "host":"127.0.0.1",
-        "port":"6379"
-      }
+        "enabled": true,
+        "host": "0.0.0.0",
+        "port": "8080",
+        "redis": {
+            "host": "127.0.0.1",
+            "port": "6379"
+        }
+    },
+
+    "clustering": {
+        "enabled": true,
+        "forks": "auto"
     }
 }

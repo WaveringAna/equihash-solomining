@@ -2,27 +2,116 @@ var Stratum = require('./lib/index.js')
 var config = require('./config.json');
 var colors = require('colors');
 var fs = require('fs');
+var cluster = require('cluster');
+var os = require('os');
+var PoolWorker = require('./lib/poolWorker.js');
 
 var coinFilePath = 'coins/' + config.coin;
-if (!fs.existsSync(coinFilePath)){
+if (!fs.existsSync(coinFilePath)) {
     console.log('Master', config.coin, 'could not find file: ' + coinFilePath);
     return;
 }
 
-var coinProfile = JSON.parse(fs.readFileSync(coinFilePath, {encoding: 'utf8'}));
+var coinProfile = JSON.parse(fs.readFileSync(coinFilePath, {
+    encoding: 'utf8'
+}));
+
 config.coin = coinProfile;
 
-var pool = Stratum.createPool(config, function (ip, port, workerName, password, callback) {
-  console.log("Authorized " + workerName + ":" + password + "@" + ip);
-  callback({
-      error: null,
-      authorized: true,
-      disconnect: false
-  });
-});
+try {
+    var posix = require('posix');
+    try {
+        posix.setrlimit('nofile', { soft: 100000, hard: 100000 });
+    }
+    catch(e){
+        if (cluster.isMaster)
+            logger.warning('POSIX', 'Connection Limit', '(Safe to ignore) Must be ran as root to increase resource limits');
+    }
+    finally {
+        // Find out which user used sudo through the environment variable
+        var uid = parseInt(process.env.SUDO_UID);
+        // Set our server's uid to that user
+        if (uid) {
+            process.setuid(uid);
+            logger.debug('POSIX', 'Connection Limit', 'Raised to 100K concurrent connections, now running as non-root user: ' + process.getuid());
+        }
+    }
+}
+catch(e){
+    if (cluster.isMaster)
+        console.log('POSIX Connection Limit (Safe to ignore) POSIX module not installed and resource (connection) limit was not raised');
+}
 
-function severityToColor (severity, text) {
-    switch(severity) {
+
+if (cluster.isWorker){
+    switch(process.env.workerType){
+        case 'pool':
+            new PoolWorker();
+            break;
+        case 'website':
+            break;
+    }
+
+    return;
+}
+
+
+function spawnPoolWorkers() {
+    var numForks = (function() {
+        if (!config.clustering || !config.clustering.enabled)
+            return 1;
+        if (config.clustering.forks === 'auto')
+            return os.cpus().length;
+        if (!config.clustering.forks || isNaN(config.clustering.forks))
+            return 1;
+        return config.clustering.forks;
+    })();
+
+    var poolWorkers = {};
+
+    function createPoolWorker(forkId) {
+        var worker = cluster.fork({
+            workerType: 'pool',
+            forkId: forkId,
+            config: JSON.stringify(config)
+        });
+        worker.forkId = forkId;
+        worker.type = 'pool';
+        poolWorkers[forkId] = worker;
+        worker.on('exit', function(code, signal) {
+            console.log('Fork ' + forkId + ' died, spawning replacement worker...'.red.underline.bold);
+            setTimeout(function() {
+                createPoolWorker(forkId);
+            }, 2000);
+        }).on('message', function(msg) {
+            switch (msg.type) {
+                case 'banIP':
+                    Object.keys(cluster.workers).forEach(function(id) {
+                        if (cluster.workers[id].type === 'pool') {
+                            cluster.workers[id].send({
+                                type: 'banIP',
+                                ip: msg.ip
+                            });
+                        }
+                    });
+                    break;
+            }
+        });
+    }
+
+    var i = 0;
+    var spawnInterval = setInterval(function() {
+        createPoolWorker(i);
+        i++;
+        if (i === numForks) {
+            clearInterval(spawnInterval);
+            console.log('Spawned proxy on ' + numForks + ' thread(s)');
+        }
+    }, 250);
+}
+
+function severityToColor(severity, text) {
+    switch (severity) {
         case 'special':
             return text.cyan.underline;
         case 'debug':
@@ -37,24 +126,6 @@ function severityToColor (severity, text) {
     }
 };
 
-console.log('Equihash solomining proxy made by the Zclassic community'.cyan.underline.bold)
-pool.start();
-
-pool.on('share', function(isValidShare, isValidBlock, data){
-    if (isValidBlock){
-        console.log('***********'.cyan.underline.bold);
-        console.log('Block found: '.cyan.underline.italic + new Date().toString().cyan.underline.italic);
-        console.log('***********'.cyan.underline.bold);
-    }
-    else if (isValidShare)
-        console.log('Valid share submitted');
-    else if (data.blockHash)
-        console.log('We thought a block was found but it was rejected by the daemon');
-    else
-        console.log('Invalid share submitted')
-    console.log('Block: ' + data.height+ ' Finder: '+ data.worker);
-});
-
-pool.on('log', function(severity, logKey, logText){
-    console.log(severityToColor(severity, logKey));
-});
+(function init() {
+  spawnPoolWorkers();
+})()
