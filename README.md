@@ -30,9 +30,9 @@ Differences between this and Z-NOMP
 
 Upcoming Feautures
 -------------
-*Frontend, currently nothing exists
-*Redis database
-*API
+* Frontend, currently nothing exists
+* Redis database
+* API
 
 License
 -------
