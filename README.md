@@ -1,5 +1,7 @@
 Solomining software for equihash coins like Zclassic and Zcash. Made by the Zclassic community
 
+![picture alt](http://i.imgur.com/OKN3Dex.png)
+
 Requirements
 ------------
 * node v7+
@@ -27,6 +29,7 @@ Differences between this and Z-NOMP
 ------------
 * This is meant for solo mining
 * There is no share system; Every "share" is the block solution
+* No payments
 
 Upcoming Feautures
 -------------
