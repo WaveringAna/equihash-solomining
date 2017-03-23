@@ -11,8 +11,13 @@ Install
 -------------
 
 ```bash
+sudo apt-get install build-essential libsodium-dev npm
+sudo npm install n -g
+sudo n stable
 git clone https://github.com/aayanl/equihash-solomining
+cd equihash-solomining
 npm update
+npm install
 ```
 
 Configure
