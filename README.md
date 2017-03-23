@@ -1,4 +1,6 @@
-Solomining software for equihash coins like Zclassic and Zcash. Made by the Zclassic community
+## Solomining proxy for equihash coins like Zclassic and Zcash.
+
+Made by the Zclassic community
 
 ![picture alt](http://i.imgur.com/OKN3Dex.png)
 
