@@ -6,14 +6,14 @@
     "ports": {
         "3032": {
 	         "tls":false
-	     }
+	}
     },
 
     "tlsOptions": {
         "enabled": false,
-        "serverKey":"",
-        "serverCert":"",
-        "ca":""
+        "serverKey":"~/certs/server-privatekey.pem",
+        "serverCert":"~/certs/server-cert.pem",
+        "ca":"~/certs/server-csr.pem"
     },
 
     "blockRefreshInterval": 100,
