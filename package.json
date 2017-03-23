@@ -1,42 +1,48 @@
 {
-    "name": "stratum-pool",
-    "version": "0.1.6",
-    "description": "High performance Stratum poolserver in Node.js",
-    "keywords": [
-        "stratum",
-        "mining",
-        "pool",
-        "server",
-        "poolserver",
-        "bitcoin",
-        "litecoin",
-        "scrypt"
-    ],
-    "homepage": "https://github.com/joshuayabut/node-stratum-pool",
-    "bugs": {
-        "url": "https://github.com/joshuayabut/node-stratum-pool/issues"
-    },
-    "license": "GPL-2.0",
-    "author": "Matthew Little",
-    "contributors": [
-        "vekexasia",
-        "TheSeven"
-    ],
-    "main": "lib/index.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/joshuayabut/node-stratum-pool.git"
-    },
-    "dependencies": {
-        "equihashverify": "git+https://github.com/joshuayabut/equihashverify.git",
-        "bignum": "*",
-        "base58-native": "*",
-        "async": "*",
-        "merkle-bitcoin": "git+https://github.com/joshuayabut/merkle-bitcoin.git",
-        "bitcoinjs-lib-zcash": "git+https://github.com/runn1ng/bitcoinjs-lib.git#zcash",
-        "promise": "*"
-    },
-    "engines": {
-        "node": ">=7"
-    }
+  "name": "equihash-solomining",
+  "version": "0.0.1",
+  "description": "High performance Stratum poolserver in Node.js",
+  "keywords": [
+    "stratum",
+    "mining",
+    "pool",
+    "server",
+    "poolserver",
+    "bitcoin",
+    "litecoin",
+    "scrypt"
+  ],
+  "homepage": "https://github.com/joshuayabut/node-stratum-pool",
+  "bugs": {
+    "url": "https://github.com/joshuayabut/node-stratum-pool/issues"
+  },
+  "license": "GPL-2.0",
+  "author": "Matthew Little",
+  "contributors": [
+    "vekexasia",
+    "TheSeven"
+  ],
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuayabut/node-stratum-pool.git"
+  },
+  "dependencies": {
+    "async": "*",
+    "base58-native": "*",
+    "bignum": "*",
+    "bitcoinjs-lib-zcash": "git+https://github.com/runn1ng/bitcoinjs-lib.git#zcash",
+    "color": "^1.0.3",
+    "colors": "^1.1.2",
+    "equihashverify": "git+https://github.com/joshuayabut/equihashverify.git",
+    "merkle-bitcoin": "git+https://github.com/joshuayabut/merkle-bitcoin.git",
+    "promise": "*"
+  },
+  "engines": {
+    "node": ">=7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$PWD/node_modules/stratum-pool/node_modules/equihashverify/build/Release/:$PWD/node_modules/equihashverify/build/Release/ node init.js"
+  }
 }

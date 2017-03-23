@@ -1,0 +1,50 @@
+{
+    "coin":"zcash_testnet.json",
+
+    "address": "tmTrPDwPTJweuwPR7Hgt6u1dN7Vq4tZyuxm",
+
+    "ports": {
+        "3032": {
+	         "tls":false
+	     }
+    },
+
+    "tlsOptions": {
+        "enabled": false,
+        "serverKey":"",
+        "serverCert":"",
+        "ca":""
+    },
+
+    "blockRefreshInterval": 100,
+    "jobRebroadcastTimeout": 55,
+    "connectionTimeout": 6000000,
+    "emitInvalidBlockHashes": false,
+    "tcpProxyProtocol": false,
+    "banning": {
+        "enabled": true,
+        "time": 600,
+        "invalidPercent": 50,
+        "checkThreshold": 500,
+        "purgeInterval": 300
+    },
+
+    "daemons": [
+      {
+        "host": "127.0.0.1",
+        "port": 18333,
+        "user": "aayan",
+        "password": "bzQpiJ9osy"
+      }
+    ],
+
+    "website": {
+      "enabled": true,
+      "host": "0.0.0.0",
+      "port": "8080",
+      "redis" : {
+        "host":"127.0.0.1",
+        "port":"6379"
+      }
+    }
+}
