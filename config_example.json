@@ -46,8 +46,17 @@
         }
     },
 
+    "p2p": {
+        "enabled": false,
+        "host": "127.0.0.1",
+        "port": 8133,
+        "disableTransactions": true
+    },
+
     "clustering": {
         "enabled": true,
         "forks": "auto"
-    }
+    },
+
+    "cliPort": 17117
 }

@@ -1,9 +1,12 @@
-var Stratum = require('./lib/index.js')
 var config = require('./config.json');
+
 var colors = require('colors');
 var fs = require('fs');
 var cluster = require('cluster');
 var os = require('os');
+
+var Stratum = require('./lib/index.js')
+var CliListener = require('./libs/cliListener.js');
 var PoolWorker = require('./lib/poolWorker.js');
 
 var coinFilePath = 'coins/' + config.coin;
@@ -110,6 +113,28 @@ function spawnPoolWorkers() {
     }, 250);
 }
 
+function startCliListener () {
+  var cliPort = config.cliPort;
+
+      var listener = new CliListener(cliPort);
+      listener.on('log', function(text){
+          logger.debug('Master', 'CLI', text);
+      }).on('command', function(command, params, options, reply){
+
+          switch(command){
+              case 'blocknotify':
+                  Object.keys(cluster.workers).forEach(function(id) {
+                      cluster.workers[id].send({type: 'blocknotify', coin: params[0], hash: params[1]});
+                  });
+                  reply('Workers notified');
+                  break;
+              default:
+                  reply('unrecognized command "' + command + '"');
+                  break;
+          }
+  }).start();
+}
+
 function severityToColor(severity, text) {
     switch (severity) {
         case 'special':
@@ -128,4 +153,5 @@ function severityToColor(severity, text) {
 
 (function init() {
   spawnPoolWorkers();
+  startCliListener();
 })()
