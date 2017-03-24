@@ -118,7 +118,7 @@ function startCliListener () {
 
       var listener = new CliListener(cliPort);
       listener.on('log', function(text){
-          logger.debug('Master', 'CLI', text);
+          console.log('CLI: '+ text);
       }).on('command', function(command, params, options, reply){
 
           switch(command){
