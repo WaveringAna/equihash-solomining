@@ -6,7 +6,7 @@ var cluster = require('cluster');
 var os = require('os');
 
 var Stratum = require('./lib/index.js')
-var CliListener = require('./libs/cliListener.js');
+var CliListener = require('./lib/cliListener.js');
 var PoolWorker = require('./lib/poolWorker.js');
 
 var coinFilePath = 'coins/' + config.coin;
