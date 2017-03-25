@@ -1,5 +1,5 @@
 ## Solomining proxy for equihash coins like Zclassic and Zcash.
-
+## (READY FOR TESTING)
 Made by the Zclassic community
 
 ![picture alt](http://i.imgur.com/OKN3Dex.png)
