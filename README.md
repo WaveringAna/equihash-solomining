@@ -1,6 +1,6 @@
 ## Solomining proxy for equihash coins like Zclassic and Zcash.
 ## (READY FOR TESTING)
-Made by the Zclassic community
+Made by the Zclassic community, configuration and documentation is [here](https://zdeveloper.org/equihash-solomining)
 
 ![picture alt](http://i.imgur.com/OKN3Dex.png)
 
@@ -24,7 +24,7 @@ npm install
 
 Configure
 -------------
-Go to config.json and change it to your setup
+Go to config.json and change it to your setup. Official documentation is here: [https://zdeveloper.org/equihash-solomining](https://zdeveloper.org/equihash-solomining)
 
 Run
 ------------
