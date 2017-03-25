@@ -58,5 +58,8 @@
         "forks": "auto"
     },
 
-    "cliPort": 17117
+    "blockNotifyListener": {
+        "enabled": false,
+        "port": 17117
+    }
 }
