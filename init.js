@@ -9,7 +9,7 @@ var Stratum = require('./lib/stratum/index.js')
 var CliListener = require('./lib/workers/cliListener.js');
 var PoolWorker = require('./lib/workers/poolWorker.js');
 var Website = require('./lib/workers/website.js');
-var timestamp = require('./lib/modules/timestamp.js');
+var logging = require('./lib/modules/logging.js');
 
 var coinFilePath = 'coins/' + config.coin;
 if (!fs.existsSync(coinFilePath)) {
@@ -26,30 +26,30 @@ config.coin = coinProfile;
 try {
     var posix = require('posix');
     try {
-        posix.setrlimit('nofile', { soft: 100000, hard: 100000 });
-    }
-    catch(e){
+        posix.setrlimit('nofile', {
+            soft: 100000,
+            hard: 100000
+        });
+    } catch (e) {
         if (cluster.isMaster)
-            logger.warning('POSIX', 'Connection Limit', '(Safe to ignore) Must be ran as root to increase resource limits');
-    }
-    finally {
+            logging('Init','debug', 'POSIX', 'Connection Limit', '(Safe to ignore) Must be ran as root to increase resource limits');
+    } finally {
         // Find out which user used sudo through the environment variable
         var uid = parseInt(process.env.SUDO_UID);
         // Set our server's uid to that user
         if (uid) {
             process.setuid(uid);
-            logger.debug('POSIX', 'Connection Limit', 'Raised to 100K concurrent connections, now running as non-root user: ' + process.getuid());
+            logging('Init', 'debug', 'POSIX', 'Connection Limit', 'Raised to 100K concurrent connections, now running as non-root user: ' + process.getuid());
         }
     }
-}
-catch(e){
+} catch (e) {
     if (cluster.isMaster)
         console.log('POSIX Connection Limit (Safe to ignore) POSIX module not installed and resource (connection) limit was not raised');
 }
 
 
-if (cluster.isWorker){
-    switch(process.env.workerType){
+if (cluster.isWorker) {
+    switch (process.env.workerType) {
         case 'pool':
             new PoolWorker();
             break;
@@ -85,7 +85,8 @@ function spawnPoolWorkers() {
         worker.type = 'pool';
         poolWorkers[forkId] = worker;
         worker.on('exit', function(code, signal) {
-            console.log('[' + timestamp() + '] Fork ' + forkId + ' died, spawning replacement worker...'.red.underline.bold);
+            //console.log('[' + timestamp() + '] Fork ' + forkId + ' died, spawning replacement worker...'.red.underline.bold);
+            logging('Pool', 'error', 'Fork ' + forkId + ' died, spawning replacement worker...', forkId)
             setTimeout(function() {
                 createPoolWorker(forkId);
             }, 2000);
@@ -111,31 +112,35 @@ function spawnPoolWorkers() {
         i++;
         if (i === numForks) {
             clearInterval(spawnInterval);
-            console.log('Spawned proxy on ' + numForks + ' thread(s)');
+            logging('Init', 'debug', 'Spawned proxy on ' + numForks + ' threads(s)')
         }
     }, 250);
 }
 
-function startCliListener () {
-  var cliPort = config.cliPort;
+function startCliListener() {
+    var cliPort = config.cliPort;
 
-      var listener = new CliListener(cliPort);
-      listener.on('log', function(text){
-          console.log('CLI: '+ text);
-      }).on('command', function(command, params, options, reply){
+    var listener = new CliListener(cliPort);
+    listener.on('log', function(text) {
+        console.log('CLI: ' + text);
+    }).on('command', function(command, params, options, reply) {
 
-          switch(command){
-              case 'blocknotify':
-                  Object.keys(cluster.workers).forEach(function(id) {
-                      cluster.workers[id].send({type: 'blocknotify', coin: params[0], hash: params[1]});
-                  });
-                  reply('Workers notified');
-                  break;
-              default:
-                  reply('unrecognized command "' + command + '"');
-                  break;
-          }
-  }).start();
+        switch (command) {
+            case 'blocknotify':
+                Object.keys(cluster.workers).forEach(function(id) {
+                    cluster.workers[id].send({
+                        type: 'blocknotify',
+                        coin: params[0],
+                        hash: params[1]
+                    });
+                });
+                reply('Workers notified');
+                break;
+            default:
+                reply('unrecognized command "' + command + '"');
+                break;
+        }
+    }).start();
 }
 
 function startWebsite() {
@@ -146,31 +151,28 @@ function startWebsite() {
         config: JSON.stringify(config)
     });
     worker.on('exit', function(code, signal) {
-        console.log('Website process died, spawning replacement...'.red.underline);
+        logging('Website', 'error', 'Website process died, spawning replacement...')
         setTimeout(function() {
             startWebsite(config);
         }, 2000);
     });
 }
 
-function severityToColor(severity, text) {
-    switch (severity) {
-        case 'special':
-            return text.cyan.underline;
-        case 'debug':
-            return text.green;
-        case 'warning':
-            return text.yellow;
-        case 'error':
-            return text.red;
-        default:
-            console.log("Unknown severity " + severity);
-            return text.italic;
+function createEmptyLogs() {
+    try {
+        fs.readFileSync('./logs/blocks.json')
+    } catch (err) {
+        if (err.code === "ENOENT") {
+            fs.writeFileSync('./logs/blocks.json', '[]');
+        } else {
+            throw err;
+        }
     }
-};
+}
 
 (function init() {
-  spawnPoolWorkers();
-  startCliListener();
-  startWebsite();
-})()
+    createEmptyLogs();
+    spawnPoolWorkers();
+    startCliListener();
+    startWebsite();
+})();
