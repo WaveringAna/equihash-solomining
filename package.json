@@ -35,6 +35,7 @@
     "color": "^1.0.3",
     "colors": "^1.1.2",
     "equihashverify": "git+https://github.com/joshuayabut/equihashverify.git",
+    "express": "^4.15.2",
     "merkle-bitcoin": "git+https://github.com/joshuayabut/merkle-bitcoin.git",
     "promise": "*"
   },

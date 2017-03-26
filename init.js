@@ -5,9 +5,11 @@ var fs = require('fs');
 var cluster = require('cluster');
 var os = require('os');
 
-var Stratum = require('./lib/index.js')
-var CliListener = require('./lib/cliListener.js');
-var PoolWorker = require('./lib/poolWorker.js');
+var Stratum = require('./lib/stratum/index.js')
+var CliListener = require('./lib/workers/cliListener.js');
+var PoolWorker = require('./lib/workers/poolWorker.js');
+var Website = require('./lib/workers/website.js');
+var timestamp = require('./lib/modules/timestamp.js');
 
 var coinFilePath = 'coins/' + config.coin;
 if (!fs.existsSync(coinFilePath)) {
@@ -52,6 +54,7 @@ if (cluster.isWorker){
             new PoolWorker();
             break;
         case 'website':
+            new Website();
             break;
     }
 
@@ -82,7 +85,7 @@ function spawnPoolWorkers() {
         worker.type = 'pool';
         poolWorkers[forkId] = worker;
         worker.on('exit', function(code, signal) {
-            console.log('Fork ' + forkId + ' died, spawning replacement worker...'.red.underline.bold);
+            console.log('[' + timestamp() + '] Fork ' + forkId + ' died, spawning replacement worker...'.red.underline.bold);
             setTimeout(function() {
                 createPoolWorker(forkId);
             }, 2000);
@@ -135,6 +138,21 @@ function startCliListener () {
   }).start();
 }
 
+function startWebsite() {
+    if (!config.website.enabled) return;
+
+    var worker = cluster.fork({
+        workerType: 'website',
+        config: JSON.stringify(config)
+    });
+    worker.on('exit', function(code, signal) {
+        console.log('Website process died, spawning replacement...'.red.underline);
+        setTimeout(function() {
+            startWebsite(config);
+        }, 2000);
+    });
+}
+
 function severityToColor(severity, text) {
     switch (severity) {
         case 'special':
@@ -154,4 +172,5 @@ function severityToColor(severity, text) {
 (function init() {
   spawnPoolWorkers();
   startCliListener();
+  startWebsite();
 })()
