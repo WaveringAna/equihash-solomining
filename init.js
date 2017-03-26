@@ -110,7 +110,7 @@ function spawnPoolWorkers() {
     var spawnInterval = setInterval(function() {
         createPoolWorker(i);
         i++;
-        if (i === numForks) {
+        if (i == numForks) {
             clearInterval(spawnInterval);
             logging('Init', 'debug', 'Spawned proxy on ' + numForks + ' threads(s)')
         }
