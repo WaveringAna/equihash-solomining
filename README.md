@@ -32,6 +32,13 @@ Run
 npm start
 ```
 
+Update
+-------------
+Get rid of the node_modules folder then 
+```bash
+npm install
+```
+
 Differences between this and Z-NOMP
 ------------
 * This is meant for solo mining
