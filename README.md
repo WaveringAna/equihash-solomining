@@ -2,7 +2,7 @@
 ## (READY FOR TESTING)
 Made by the Zclassic community, configuration and documentation is [here](https://zdeveloper.org/equihash-solomining)
 
-![picture alt](http://i.imgur.com/OKN3Dex.png)
+![picture alt](http://i.imgur.com/xB9XdVF.png)
 
 Requirements
 ------------
