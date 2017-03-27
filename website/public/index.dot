@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head lang="en">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+    <meta charset="utf-8">
+    <style>
+        .legend {
+            font-size: 12px;
+        }
+
+        rect {
+            stroke-width: 2;
+        }
+    </style>:
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Equihash Solomining</h1>
+            <hr>
+        </header>
+        <h3>Daemon Status</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <th>Block Height</th>
+                        <th>Network Hashrate</th>
+                        <th>Difficulty</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[[= model.blocks]]</td>
+                            <td>[[= model.hashrate]] Sol/s</td>
+                            <td>[[= model.difficulty]]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <h3>Stats</h3>
+        <br>
+        <div class="row">
+            <div class="col-md-8 col-sm-6" id="charts">
+            </div>
+            <div class="col-md-4 sidebar col-sm-6" id="info">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
