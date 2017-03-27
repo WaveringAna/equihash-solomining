@@ -47,11 +47,17 @@
         <br>
         <hr>
         <h3>Stats</h3>
+        <hr>
         <br>
         <div class="row">
             <div class="col-md-8 col-sm-6" id="charts">
             </div>
             <div class="col-md-4 sidebar col-sm-6" id="info">
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12" id="blocks">
             </div>
         </div>
     </div>

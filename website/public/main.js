@@ -72,7 +72,7 @@ function createChart(chart, data, title) {
     legend.append('text')
         .attr('x', legendRectSize + legendSpacing)
         .attr('y', legendRectSize - legendSpacing)
-        .text(function(d,i) {
+        .text(function(d, i) {
             return array[i].label;
         });
 
@@ -84,36 +84,79 @@ function blocks(cback) {
         array = JSON.parse(json); //Sample: [{"block":48759,"finder":"rx480","date":1490404074912},{"block":48760,"finder":"rx470","date":1490404148117}]
         groupedByFinder = groupBy(array, 'finder');
 
-        var tablediv = document.getElementById('info'),
-            table = document.createElement('table'),
-            thead = document.createElement('thead'),
-            tbody = document.createElement('tbody');
-        table.className = 'table table-hover table-striped';
+        function infotable() {
+            var tablediv = document.getElementById('info'),
+                table = document.createElement('table'),
+                thead = document.createElement('thead'),
+                tbody = document.createElement('tbody');
+            table.className = 'table table-hover table-striped';
 
-        var theadTR = document.createElement('tr');
-        var theadTH1 = document.createElement('th');
-        var theadTH2 = document.createElement('th');
-        theadTH1.appendChild(document.createTextNode('Finder'));
-        theadTH2.appendChild(document.createTextNode('Blocks'));
-        theadTR.appendChild(theadTH1);
-        theadTR.appendChild(theadTH2);
-        thead.appendChild(theadTR);
-        table.appendChild(thead);
+            var theadTR = document.createElement('tr');
+            var theadTH1 = document.createElement('th');
+            var theadTH2 = document.createElement('th');
+            theadTH1.appendChild(document.createTextNode('Finder'));
+            theadTH2.appendChild(document.createTextNode('Blocks'));
+            theadTR.appendChild(theadTH1);
+            theadTR.appendChild(theadTH2);
+            thead.appendChild(theadTR);
+            table.appendChild(thead);
 
-        Object.keys(groupedByFinder).forEach(function(i) {
-            var row = document.createElement("tr");
-            var cell1 = document.createElement("td");
-            var cell2 = document.createElement("td");
-            cell1.appendChild(document.createTextNode(i))
-            cell2.appendChild(document.createTextNode(groupedByFinder[i].length))
-            row.appendChild(cell1);
-            row.appendChild(cell2);
-            tbody.appendChild(row)
-            table.appendChild(tbody)
-            tablediv.appendChild(table)
-        });
-        cback("blocks")
-        createChart('pie', groupedByFinder, blocks);
+            Object.keys(groupedByFinder).forEach(function(i) {
+                var row = document.createElement("tr");
+                var cell1 = document.createElement("td");
+                var cell2 = document.createElement("td");
+                cell1.appendChild(document.createTextNode(i))
+                cell2.appendChild(document.createTextNode(groupedByFinder[i].length))
+                row.appendChild(cell1);
+                row.appendChild(cell2);
+                tbody.appendChild(row)
+                table.appendChild(tbody)
+                tablediv.appendChild(table)
+            });
+            cback("blocks")
+            createChart('pie', groupedByFinder, blocks);
+        }
+
+        function blockstable() {
+            var tablediv = document.getElementById('blocks'),
+                table = document.createElement('table'),
+                thead = document.createElement('thead'),
+                tbody = document.createElement('tbody');
+            table.className = 'table table-hover table-striped';
+
+            var theadTR = document.createElement('tr');
+            var theadTH1 = document.createElement('th');
+            var theadTH2 = document.createElement('th');
+            var theadTH3 = document.createElement('th');
+            theadTH1.appendChild(document.createTextNode('Block'));
+            theadTH2.appendChild(document.createTextNode('Finder'));
+            theadTH3.appendChild(document.createTextNode('Date'));
+            theadTR.appendChild(theadTH1);
+            theadTR.appendChild(theadTH2);
+            theadTR.appendChild(theadTH3);
+            thead.appendChild(theadTR);
+            table.appendChild(thead);
+
+            for (var i=array.length; i--;) {
+                var row = document.createElement("tr");
+                var cell1 = document.createElement("td");
+                var cell2 = document.createElement("td");
+                var cell3 = document.createElement("td");
+                cell1.appendChild(document.createTextNode(array[i].block))
+                cell2.appendChild(document.createTextNode(array[i].finder))
+                var d = new Date(array[i].date);
+                cell3.appendChild(document.createTextNode(d))
+                row.appendChild(cell1);
+                row.appendChild(cell2);
+                row.appendChild(cell3);
+                tbody.appendChild(row)
+                table.appendChild(tbody)
+                tablediv.appendChild(table)
+            };
+            cback("blocks")
+        }
+        infotable();
+        blockstable();
     });
 }
 
