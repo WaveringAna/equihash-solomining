@@ -16,15 +16,21 @@
         rect {
             stroke-width: 2;
         }
-    </style>:
+    </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+              <a class="navbar-brand" href="/">Equihash Solomining</a>
+          </div>
+          <ul class="nav navbar-nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/api">API</a></li>
+          </ul>
+    </nav>
     <div class="container">
-        <header>
-            <h1>Equihash Solomining</h1>
-            <hr>
-        </header>
         <h3>Daemon Status</h3>
         <div class="row">
             <div class="col-md-12">

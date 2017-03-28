@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head lang="en">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="main.js"></script>
+    <meta charset="utf-8">
+    <style>
+        .legend {
+            font-size: 12px;
+        }
+
+        rect {
+            stroke-width: 2;
+        }
+    </style>
+</head>
+
+<body>
+      <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Equihash Solomining</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="/api">API</a></li>
+            </ul>
+        </nav>
+        <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>API</h3>
+                <hr>
+                <h3><a href="/blocks.json">/blocks.json <small>JSON</small></a></h3>
+                <p>Returns blocks found with their founder and milliseconds since the epoch.</p>
+                <p>Sample: <em>[{"block":48791,"finder":"rx470","date":1490504107869},{"block":48792,"finder":"rx470","date":1490506498711},{"block":48793,"finder":"t1RjQjDbPQ9Syp97DHFyzvgZhcjgLTMwhaq","date":1490506800295}]</em></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
