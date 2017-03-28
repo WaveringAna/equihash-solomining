@@ -26,6 +26,10 @@ Configure
 -------------
 Go to config.json and change it to your setup. Official documentation is here: [https://zdeveloper.org/equihash-solomining](https://zdeveloper.org/equihash-solomining)
 
+Want to add your own background to the frontend? 
+
+Go to website/public/index.dot and add `style="background-image: url(IMAGEURLHERE)"` to \<body\>. Example: http://i.imgur.com/FXG5wm4.png (NSFW)
+
 Run
 ------------
 ```bash
@@ -47,9 +51,7 @@ Differences between this and Z-NOMP
 
 Upcoming Feautures
 -------------
-* Frontend, currently nothing exists
-* Redis database
-* API
+* More API
 
 License
 -------
