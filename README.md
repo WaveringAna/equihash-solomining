@@ -2,6 +2,7 @@
 ## (READY FOR TESTING)
 
 [![Join the chat at https://gitter.im/equihash-solomining/Lobby](https://badges.gitter.im/equihash-solomining/Lobby.svg)](https://gitter.im/equihash-solomining/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Made by the Zclassic community, configuration and documentation is [here](https://zdeveloper.org/equihash-solomining)
 
 ![picture alt](http://i.imgur.com/xB9XdVF.png)
@@ -54,6 +55,10 @@ Differences between this and Z-NOMP
 Upcoming Feautures
 -------------
 * More API
+
+Support
+-------------
+https://gitter.im/equihash-solomining
 
 License
 -------
