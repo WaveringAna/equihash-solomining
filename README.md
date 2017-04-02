@@ -1,5 +1,8 @@
 ## Solomining proxy for equihash coins like Zclassic and Zcash.
 ## (READY FOR TESTING)
+
+[![Join the chat at https://gitter.im/equihash-solomining/Lobby](https://badges.gitter.im/equihash-solomining/Lobby.svg)](https://gitter.im/equihash-solomining/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Made by the Zclassic community, configuration and documentation is [here](https://zdeveloper.org/equihash-solomining)
 
 ![picture alt](http://i.imgur.com/xB9XdVF.png)
@@ -26,6 +29,10 @@ Configure
 -------------
 Go to config.json and change it to your setup. Official documentation is here: [https://zdeveloper.org/equihash-solomining](https://zdeveloper.org/equihash-solomining)
 
+Want to add your own background to the frontend? 
+
+Go to website/public/index.dot and add `style="background-image: url(IMAGEURLHERE)"` to \<body\>. Example: http://i.imgur.com/FXG5wm4.png (NSFW)
+
 Run
 ------------
 ```bash
@@ -47,9 +54,11 @@ Differences between this and Z-NOMP
 
 Upcoming Feautures
 -------------
-* Frontend, currently nothing exists
-* Redis database
-* API
+* More API
+
+Support
+-------------
+https://gitter.im/equihash-solomining
 
 License
 -------
