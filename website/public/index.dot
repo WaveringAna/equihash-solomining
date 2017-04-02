@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/async/0.2.7/async.min.js"></script>
     <script src="main.js"></script>
     <meta charset="utf-8">
     <style>
@@ -16,6 +17,18 @@
         rect {
             stroke-width: 2;
         }
+
+        .node {
+            fill: #ccc;
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        .link {
+            stroke: #777;
+            stroke-width: 2px;
+        }
+
     </style>
 </head>
 
@@ -56,10 +69,14 @@
         <hr>
         <br>
         <div class="row">
-            <div class="col-md-8 col-sm-6" id="charts">
+            <div class="col-md-8 col-sm-6" id="piechart">
             </div>
             <div class="col-md-4 sidebar col-sm-6" id="info">
             </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12" id="blockschart">
+          </div>
         </div>
         <br>
         <div class="row">
